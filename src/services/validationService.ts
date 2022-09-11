@@ -1,5 +1,6 @@
 import * as authRepository from "../repositories/authRepository"
 import * as userRepository from "../repositories/userRepository"
+import * as noteRepository from "../repositories/noteRepository"
 import * as credentialRepository from "../repositories/credentialRepository"
 import { IUser, ICredential} from "../utils/interfaces"
 import bcrypt from "bcrypt"
@@ -61,6 +62,38 @@ export async function validateDeleteCredential(
     await validateCredentialId(userId, id)
 }
 
+export async function validateCreateNote(
+    userId: number,
+    title: string){
+
+    await validateUserById(userId)
+    await validateNoteTitle(userId, title)
+}
+
+export async function validateGetNotes(
+    userId: number){
+
+    await validateUserById(userId)    
+}
+
+export async function validateGetNoteById(
+    userId: number,
+    id: number){
+
+    await validateUserById(userId)
+    const note = await validateNoteId(userId, id)
+
+    return note
+}
+
+export async function validateDeleteNote(
+    userId: number,
+    id: number){
+
+    await validateUserById(userId)
+    await validateNoteId(userId, id)
+}
+
 //-------------------------------------------------
 
 export async function validateUserByEmail(
@@ -113,4 +146,28 @@ export async function validateCredentialId(
     }
 
     return credential
+}
+
+export async function validateNoteTitle(
+    userId: number,
+    title: string){
+
+    const note = await noteRepository.searchNoteByTitle(userId, title)
+
+    if(note){
+        throw { code: "Unauthorized", message: "Title already used" } 
+    }
+}
+
+export async function validateNoteId(
+    userId: number,
+    id: number){
+
+    const note = await noteRepository.getNoteById(userId, id)
+
+    if(!note){
+        throw { code: "Not Found", message: "Note not found" }
+    }
+
+    return note
 }

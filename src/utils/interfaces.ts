@@ -32,3 +32,10 @@ export interface ICredential{
     userName: string;
     password: string;
 }
+
+export interface INote{
+	id?: number;
+	userId: number;
+	title: string;
+	note: string;
+}
