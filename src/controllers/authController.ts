@@ -4,9 +4,9 @@ import { IUser } from "../utils/interfaces"
 
 export async function signUp(req: Request, res: Response){
     const {email, password} : IUser = req.body 
-    const result = await authService.signUp(email, password)
+    await authService.signUp(email, password)
 
-    res.send(result).status(200)
+    res.send("Registration successfully complete").status(200)
     
 }
 

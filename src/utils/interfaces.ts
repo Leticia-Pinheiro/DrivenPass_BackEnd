@@ -23,3 +23,12 @@ export interface IUser{
 	email: string
 	password: string	
 }
+
+export interface ICredential{    
+	id?: number;
+    userId: number;
+    credentialName: string;
+    url: string;
+    userName: string;
+    password: string;
+}

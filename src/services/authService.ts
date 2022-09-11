@@ -11,9 +11,7 @@ export async function signUp(
     await validationService.validateSignUp(email)
     const encryptedPassword : string = EncryptData(password)
 
-    const result = await authRepository.signUp(email, encryptedPassword) //post
-
-    return result
+    await authRepository.createUser(email, encryptedPassword) 
 }
 
 export async function signIn(
