@@ -1,15 +1,18 @@
-import connection from "../database/postgres"
+import prisma from "../database/postgres"
 
 export async function createNote(
     userId: number,
     title: string,
     note: string){
 
-    await connection.query(
-        `
-        INSERT INTO notes (userId, title, note)
-        VALUES ($1, $2, $3)
-        `, [userId, title, note])
+    const data = {userId, title, note}
+    // await connection.query(
+    //     `
+    //     INSERT INTO notes (userId, title, note)
+    //     VALUES ($1, $2, $3)
+    //     `, [userId, title, note])
+
+    await prisma.notes.create({data: data})
 }
 
 export async function getNotesByUserId(
@@ -36,7 +39,7 @@ export async function getNotesByUserId(
         }
     ]
     
-    return example
+    return notes.rows
 }
 
 export async function getNoteById(
@@ -57,7 +60,7 @@ export async function getNoteById(
         note: "Arroz e feijão"
     }
 
-    return example
+    return note.rows[0]
 }
 
 export async function deleteNote(
@@ -89,5 +92,5 @@ export async function searchNoteByTitle(
         note: "Arroz e feijão"
     }
 
-    return example
+    return note.rows[0]
 }

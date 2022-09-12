@@ -1,9 +1,19 @@
+import { users, cards, credentials, notes } from '@prisma/client'
+
+
+
 export type TransactionTypes =
 	| "groceries"
 	| "restaurant"
 	| "transport"
 	| "education"
 	| "health"
+
+	export type CardTypes =
+	| "credit"
+	| "debt"
+	| "both"
+	
 
 export interface Card{    
 	employeeId: number
@@ -19,9 +29,9 @@ export interface Card{
 }
 
 export interface IUser{    
-	id? : number
-	email: string
-	password: string	
+	id?: number;
+	email: string;
+	password: string;	
 }
 
 export interface ICredential{    
@@ -39,3 +49,21 @@ export interface INote{
 	title: string;
 	note: string;
 }
+
+export interface ICard{
+	id?: number;
+	userId: number;
+	cardName: string;
+	number: string;
+	printedName: string;
+	securityCode: string;	
+	expirationDate: string;
+	password: string;	
+	isVirtual: boolean;
+	type: string;
+}
+
+
+export type TypeCard = Omit<cards, 'id'>
+
+export type Decimal = number

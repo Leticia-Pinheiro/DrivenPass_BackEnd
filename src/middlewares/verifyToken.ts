@@ -14,8 +14,10 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
 			message: "A token is required for authentication",
 		};
 	}
+
+	const SECRET: string = process.env.TOKEN_SECRET_KEY ?? '';
 	
-		const decoded = jwt.verify(token, process.env.SECRET_KEY_TOKEN);
+		const decoded = jwt.verify(token, SECRET);
 
 		res.locals.tokenDecoded = decoded;
 
@@ -24,3 +26,13 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
 }
 
 export default verifyToken;
+
+
+
+
+
+
+
+
+
+

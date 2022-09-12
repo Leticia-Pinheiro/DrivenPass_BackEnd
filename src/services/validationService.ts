@@ -1,8 +1,8 @@
-import * as authRepository from "../repositories/authRepository"
 import * as userRepository from "../repositories/userRepository"
 import * as noteRepository from "../repositories/noteRepository"
 import * as credentialRepository from "../repositories/credentialRepository"
-import { IUser, ICredential} from "../utils/interfaces"
+import * as cardRepository from "../repositories/cardRepository"
+import { IUser, ICredential, ICard, Decimal} from "../utils/interfaces"
 import bcrypt from "bcrypt"
 
 export async function validateSignUp(
@@ -19,7 +19,8 @@ export async function validateSignIn(
     email: string,
     password: string){
   
-    const userData = await validateUserByEmail(email)    
+    const userData = await validateUserByEmail(email)  
+    // const { id } : { id: number} = userData  
 
     if(!userData){
         throw { code: "Not Found", message: "Invalid e-mail "}
@@ -94,12 +95,45 @@ export async function validateDeleteNote(
     await validateNoteId(userId, id)
 }
 
+export async function validateCreateCard(
+    userId: number,
+    cardName: string,){
+
+    await validateUserById(userId)
+    await validateCardName(userId, cardName)
+}
+
+export async function validateGetCards(
+    userId: number){
+
+    await validateUserById(userId) 
+}
+
+export async function validateGetCardById(
+    userId: number,
+    id: number){
+
+    await validateUserById(userId)
+    const card = await validateCardId(userId, id)
+
+    return card
+}
+
+export async function validateDeleteCard(
+    userId: number,
+    id: number){
+
+    await validateUserById(userId)
+    await validateCardId(userId, id)
+}
+
 //-------------------------------------------------
 
 export async function validateUserByEmail(
-    email: string){
+    emailInfo: string){
 
-    const user = await userRepository.searchUserByEmail(email)      
+    const user = await userRepository.searchUserByEmail(emailInfo) 
+       
     return user
 }
 
@@ -171,3 +205,28 @@ export async function validateNoteId(
 
     return note
 }
+
+export async function validateCardName(
+    userId: number,
+    cardName: string){
+
+    const card = await cardRepository.searchCardByCardName(userId, cardName)
+
+    if(card){
+        throw { code: "Unauthorized", message: "Card name already used" }
+    }
+}
+
+export async function validateCardId(
+    userId: number,
+    id: number){
+
+    const card  = await cardRepository.getCardById(userId, id)
+
+    if(!card){
+        throw { code: "Not Found", message: "Card not found" }
+    }
+
+    return card
+}
+

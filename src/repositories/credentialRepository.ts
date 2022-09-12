@@ -1,4 +1,4 @@
-import connection from "../database/postgres"
+import prisma from "../database/postgres"
 import { ICredential } from "../utils/interfaces"
 
 export async function createCredential(
@@ -8,11 +8,15 @@ export async function createCredential(
     userName: string,
     password: string){
 
-    await connection.query(
-        `INSERT INTO credetials 
-        (userId, credentialName, url, userName, password)
-        VALUES ($1, $2, $3, $4, $5)
-        `, [userId, credentialName, url, userName, password])
+    const data = {userId, credentialName, url, userName, password}
+
+    // await connection.query(
+    //     `INSERT INTO credetials 
+    //     (userId, credentialName, url, userName, password)
+    //     VALUES ($1, $2, $3, $4, $5)
+    //     `, [userId, credentialName, url, userName, password])
+
+    await prisma.credentials.create({data: data})
 }
 
 export async function getCredentialsByUserId(
@@ -41,7 +45,7 @@ export async function getCredentialsByUserId(
             password: "leticia123"
         }
     ]
-    return example
+    return credentials.rows
     
 }
 
@@ -65,7 +69,7 @@ export async function getCredentialById(
             password: "leticia123"
         }
         
-    return example
+    return credential.rows[0]
 
 }
 
@@ -99,6 +103,6 @@ export async function searchCredentialByName(
             password: "leticia123"
         }
         
-    return example
+    return credential.rows[0]
 }
 

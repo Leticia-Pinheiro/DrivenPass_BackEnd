@@ -1,34 +1,30 @@
-import connection from "../database/postgres"
+import {prisma} from "../database/postgres"
+import { IUser } from "../utils/interfaces"
+import { users } from '@prisma/client'
 
 export async function searchUserByEmail(
-    email: string){
-    const userData = await connection.query(
-        `
-        SELECT * FROM users
-        WHERE email = $1
-        `, [email])    
+    emailInfo: string){
+    // const userData = await connection.query(
+    //     `
+    //     SELECT * FROM users
+    //     WHERE email = $1
+    //     `, [emailInfo])    
         
-    const example = {
-        id: 1,
-        email: "leticia@gmail.com",
-        password: "abc123"
-    }
-    return example
+    const userData = await prisma.users.findUnique({where: {email: emailInfo}})
+   
+    return userData
 }
 
 export async function searchUserById(
     id: number){
 
-    const userData = await connection.query(
-        `
-        SELECT * FROM users
-        WHERE id = $1
-        `, [id])    
+    // const userData = await connection.query<IUser>(
+    //     `
+    //     SELECT * FROM users
+    //     WHERE id = $1
+    //     `, [id])    
         
-    const example = {
-        id: 1,
-        email: "leticia@gmail.com",
-        password: "abc123"
-    }
-    return example
+        
+    const userData = await prisma.users.findUnique({where: {id}})
+    return userData
 }

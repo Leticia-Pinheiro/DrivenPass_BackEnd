@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model cards {
+  id             Int     @id @default(autoincrement())
+  userId         Int 
+  cardName       String  @db.VarChar(120)
+  number         String  @db.VarChar(100)
+  printedName    String  @db.VarChar(120)
+  securityCode   String  @db.VarChar(3)
+  expirationDate String  @db.VarChar(10)
+  password       String  @db.VarChar(120)
+  isVirtual      Boolean
+  type           String  @db.VarChar(120)
+}
+
+model credentials {
+  id             Int     @id @default(autoincrement())
+  userId         Decimal @db.Decimal
+  credentialName String  @db.VarChar(120)
+  url            String  @db.VarChar(1000)
+  userName       String  @db.VarChar(120)
+  password       String  @db.VarChar(120)
+}
+
+model notes {
+  id     Int     @id @default(autoincrement())
+  userId Decimal @db.Decimal
+  title  String  @db.VarChar(120)
+  note   String  @db.VarChar(1000)
+}
+
+model users {
+  id       Int    @id @default(autoincrement())
+  email    String @unique @db.VarChar(120)
+  password String @db.VarChar(120)
+}
