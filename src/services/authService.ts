@@ -2,25 +2,22 @@ import * as validationService from "./validationService"
 import * as authRepository from "../repositories/authRepository"
 import { generateToken } from "../utils/generateToken"
 import { EncryptData }  from "../utils/bcrypt"
-import { IUser } from "../utils/interfaces"
+import { TypeUser } from "../utils/interfaces"
 
 export async function signUp(
-    email: string, 
-    password: string){
+    userData: TypeUser){
 
+    const {email, password} = userData
     await validationService.validateSignUp(email)
     const encryptedPassword : string = EncryptData(password)
-
-    await authRepository.createUser(email, encryptedPassword) 
+    await authRepository.createUser({email, password: encryptedPassword}) 
 }
 
 export async function signIn(
-    email: string, 
-    password: string){
+    userData: TypeUser){
 
-    const {id } : { id: number} = await validationService.validateSignIn(email, password)
-
+    const{email, password} = userData
+    const id: number = await validationService.validateSignIn(email, password)
     const token = generateToken(id)
-
     return token
 }

@@ -9,35 +9,43 @@ datasource db {
 
 model cards {
   id             Int     @id @default(autoincrement())
-  userId         Int 
-  cardName       String  @db.VarChar(120)
-  number         String  @db.VarChar(100)
-  printedName    String  @db.VarChar(120)
-  securityCode   String  @db.VarChar(3)
-  expirationDate String  @db.VarChar(10)
-  password       String  @db.VarChar(120)
+  userId         Int
+  cardName       String
+  number         String
+  printedName    String
+  securityCode   String
+  expirationDate String
+  password       String
   isVirtual      Boolean
-  type           String  @db.VarChar(120)
+  type           String
 }
 
 model credentials {
-  id             Int     @id @default(autoincrement())
-  userId         Decimal @db.Decimal
-  credentialName String  @db.VarChar(120)
-  url            String  @db.VarChar(1000)
-  userName       String  @db.VarChar(120)
-  password       String  @db.VarChar(120)
+  id             Int    @id @default(autoincrement())
+  userId         Int
+  credentialName String
+  url            String
+  userName       String
+  password       String
 }
 
 model notes {
-  id     Int     @id @default(autoincrement())
-  userId Decimal @db.Decimal
-  title  String  @db.VarChar(120)
-  note   String  @db.VarChar(1000)
+  id     Int    @id @default(autoincrement())
+  userId Int
+  title  String
+  note   String
 }
 
 model users {
   id       Int    @id @default(autoincrement())
-  email    String @unique @db.VarChar(120)
-  password String @db.VarChar(120)
+  email    String
+  password String
+}
+
+model wifis {
+  id       Int    @id @default(autoincrement())
+  title    String
+  name     String
+  password String
+  userId   Int
 }

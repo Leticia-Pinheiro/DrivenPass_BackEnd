@@ -2,15 +2,17 @@ import * as userRepository from "../repositories/userRepository"
 import * as noteRepository from "../repositories/noteRepository"
 import * as credentialRepository from "../repositories/credentialRepository"
 import * as cardRepository from "../repositories/cardRepository"
-import { IUser, ICredential, ICard, Decimal} from "../utils/interfaces"
+import {users} from "@prisma/client"
+// import { IUser, ICredential, ICard, Decimal} from "../utils/interfaces"
 import bcrypt from "bcrypt"
+
 
 export async function validateSignUp(
     email: string){
 
-    const result = await validateUserByEmail(email)  
+    const userData = await validateUserByEmail(email)  
 
-    if(result){
+    if(userData){
         throw { code: "Unauthorized", message: "E-mail already registered"}
     }
 }
@@ -19,16 +21,14 @@ export async function validateSignIn(
     email: string,
     password: string){
   
-    const userData = await validateUserByEmail(email)  
-    // const { id } : { id: number} = userData  
+    const userData = await validateUserByEmail(email)       
 
     if(!userData){
         throw { code: "Not Found", message: "Invalid e-mail "}
     }
 
-    await validatePassword(password, userData.password)  
-    
-    return userData
+    await validatePassword(password, userData.password)    
+    return userData.id
 }
 
 export async function validateCreateCredential(
@@ -96,7 +96,7 @@ export async function validateDeleteNote(
 }
 
 export async function validateCreateCard(
-    userId: number,
+    userId: Prisma.Decimal,
     cardName: string,){
 
     await validateUserById(userId)
@@ -130,11 +130,11 @@ export async function validateDeleteCard(
 //-------------------------------------------------
 
 export async function validateUserByEmail(
-    emailInfo: string){
+    email: string){
 
-    const user = await userRepository.searchUserByEmail(emailInfo) 
+    const userData : users = await userRepository.searchUserByEmail(email) 
        
-    return user
+    return userData
 }
 
 export async function validateUserById(
