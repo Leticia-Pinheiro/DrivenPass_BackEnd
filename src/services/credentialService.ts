@@ -1,7 +1,7 @@
 import * as validationService from "./validationService"
 import * as credentialRepository from "../repositories/credentialRepository"
 import { EncryptData, DecryptData } from "../utils/cryptr"
-import { ICredential } from "../utils/interfaces"
+import { credentials } from "@prisma/client"
 
 export async function createCredential(
     userId: number,
@@ -19,8 +19,8 @@ export async function getCredentials(
     userId: number){
 
     await validationService.validateGetCredentials(userId)
-    const credentials = await credentialRepository.getCredentialsByUserId(userId)
-    const newCredentials = credentials.map(c => {
+    const credentials : credentials[] = await credentialRepository.getCredentialsByUserId(userId)
+    const newCredentials  = credentials.map(c => {
         const decryptPassword = DecryptData(c.password)
 
         const newCredential = 
@@ -43,7 +43,7 @@ export async function getCredentialById(
     userIdInformed: number,
     idInformed: number){
 
-    const {id, userId, credentialName, url, userName, password} : ICredential = await validationService.validateGetCredentialById(userIdInformed, idInformed)
+    const {id, userId, credentialName, url, userName, password} : credentials = await validationService.validateGetCredentialById(userIdInformed, idInformed)
     
     const decryptPassword = DecryptData(password)
 

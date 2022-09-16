@@ -1,7 +1,8 @@
 import * as validationService from "./validationService"
 import * as cardRepository from "../repositories/cardRepository"
-import { ICard } from "../utils/interfaces"
+import { TypeCard } from "../utils/interfaces"
 import { EncryptData, DecryptData } from "../utils/cryptr"
+import { cards } from "@prisma/client"
 
 export async function createCard({
     userId,
@@ -12,12 +13,12 @@ export async function createCard({
 	expirationDate,
 	password,
 	isVirtual,
-	type} : ICard){
+	type} : TypeCard){
 
     await validationService.validateCreateCard(userId, cardName)
     const encryptedSecurityCode = EncryptData(securityCode)
     const encryptedPassword = EncryptData(password)
-    await cardRepository.createCard(userId, cardName, number, printedName, encryptedSecurityCode, expirationDate, encryptedPassword, isVirtual, type)
+    await cardRepository.createCard({userId, cardName, number, printedName, securityCode: encryptedSecurityCode, expirationDate, password: encryptedPassword, isVirtual, type})
 }
 
 export async function getCardsByUserId(
@@ -53,7 +54,7 @@ export async function getCardById(
     userIdInformed: number,
     idInformed: number){
 
-    const {id, userId, cardName, number, printedName, securityCode, expirationDate, password, isVirtual, type} : ICard = await validationService.validateGetCardById(userIdInformed, idInformed)
+    const {id, userId, cardName, number, printedName, securityCode, expirationDate, password, isVirtual, type} : cards = await validationService.validateGetCardById(userIdInformed, idInformed)
     
     const decryptPassword = DecryptData(password)
         const decryptSecurityCode = DecryptData(securityCode)

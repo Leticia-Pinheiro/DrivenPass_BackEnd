@@ -2,8 +2,8 @@ import * as userRepository from "../repositories/userRepository"
 import * as noteRepository from "../repositories/noteRepository"
 import * as credentialRepository from "../repositories/credentialRepository"
 import * as cardRepository from "../repositories/cardRepository"
-import {users} from "@prisma/client"
-// import { IUser, ICredential, ICard, Decimal} from "../utils/interfaces"
+import { users } from "@prisma/client"
+import { TypeUser} from "../utils/interfaces"
 import bcrypt from "bcrypt"
 
 
