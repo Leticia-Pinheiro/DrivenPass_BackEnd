@@ -38,7 +38,7 @@ DrivenPass é um sistema de gerenciamento de senhas de cartões pessoais, inform
 
 ### AUTENTICAÇÃO
 
-### Sign Up
+### Cadastro de usuário
 
 ```http
 POST /signUp
@@ -60,7 +60,7 @@ POST /signUp
 </br>
 
 
-### Sign In
+### Login de usuário
 
 
 ```http
@@ -89,7 +89,7 @@ POST /signIn
 
 ### CARTÕES
 
-### Adicionar cardão
+### Adicionar cartão
 
 ```http
 POST /card
@@ -121,7 +121,7 @@ POST /card
 
 #
 
-### Buscar Cartões
+### Buscar cartões
 
 ```http
 GET /cards/:userId
@@ -170,7 +170,7 @@ GET /cards/:userId
 
 #
 
-### Buscar Cartão pelo id
+### Buscar cartão pelo id
 
 ```http
 GET /card/:userId/:id
@@ -205,7 +205,7 @@ GET /card/:userId/:id
 
 #
 
-### Deletar Cartão pelo id
+### Deletar cartão pelo id
 
 ```http
 DELETE /card/:userId/:id
@@ -230,7 +230,7 @@ DELETE /card/:userId/:id
 
 ### CREDENCIAIS
 
-### Adicionar Credencial
+### Adicionar credencial
 
 ```http
 POST /credential
@@ -258,7 +258,7 @@ POST /credential
 
 #
 
-### Buscar Crendenciais
+### Buscar crendenciais
 
 ```http
 GET /credentials/:userId
@@ -299,7 +299,7 @@ GET /credentials/:userId
 
 #
 
-### Buscar Credencial pelo Id
+### Buscar credencial pelo Id
 
 ```http
 GET /credential/:userId/:id
@@ -330,7 +330,7 @@ GET /credential/:userId/:id
 
 #
 
-### Deletar Credencial pelo Id
+### Deletar credencial pelo Id
 
 ```http
 DELETE /credential/:userId/:id
@@ -359,7 +359,7 @@ DELETE /credential/:userId/:id
 
 ### NOTAS
 
-### Adicionar Nota
+### Adicionar nota
 
 ```http
 POST /note
@@ -386,7 +386,7 @@ POST /note
 
 #
 
-### Buscar Notas
+### Buscar notas
 
 ```http
 GET /notes/:userId
@@ -423,7 +423,7 @@ GET /notes/:userId
 
 #
 
-### Buscar Nota pelo Id
+### Buscar nota pelo id
 
 ```http
 GET /note/:userId/:id
@@ -452,7 +452,7 @@ GET /note/:userId/:id
 
 #
 
-### Deletar Credencial pelo Id
+### Deletar credencial pelo id
 
 ```http
 DELETE /note/:userId/:id
