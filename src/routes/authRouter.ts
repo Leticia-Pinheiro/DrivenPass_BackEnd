@@ -4,7 +4,6 @@ import ValidateSchema from "../middlewares/validateSchemaMiddleware"
 import authSchema from "../schemas/authSchema"
 
 const authRouter = Router()
-const endpoint = "/auth"
 
 authRouter.post(
 	"/signUp",	

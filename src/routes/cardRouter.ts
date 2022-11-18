@@ -5,7 +5,6 @@ import ValidateSchema from "../middlewares/validateSchemaMiddleware"
 import cardSchema from "../schemas/cardSchema"
 
 const cardRouter = Router()
-const endpoint = "/card"
 
 cardRouter.post(
 	"/card",   
@@ -15,7 +14,7 @@ cardRouter.post(
 
 cardRouter.get(
     "/cards/:userId",
-    // verifyToken,
+    verifyToken,
     cardController.getCardsByUserId
 )
 

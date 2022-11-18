@@ -2,14 +2,13 @@ import * as userRepository from "../repositories/userRepository"
 import * as noteRepository from "../repositories/noteRepository"
 import * as credentialRepository from "../repositories/credentialRepository"
 import * as cardRepository from "../repositories/cardRepository"
-import { users } from "@prisma/client"
-import { TypeUser} from "../utils/interfaces"
+import { credentials } from "@prisma/client"
+import { TypeUser } from "../utils/interfaces"
 import bcrypt from "bcrypt"
 
 
 export async function validateSignUp(
     email: string){
-
     const userData = await validateUserByEmail(email)  
 
     if(userData){
@@ -18,17 +17,17 @@ export async function validateSignUp(
 }
 
 export async function validateSignIn(
-    email: string,
-    password: string){
+    userData: TypeUser){
   
-    const userData = await validateUserByEmail(email)       
+    const { email, password } = userData
+    const user = await validateUserByEmail(email)       
 
-    if(!userData){
+    if(!user){
         throw { code: "Not Found", message: "Invalid e-mail "}
     }
 
-    await validatePassword(password, userData.password)    
-    return userData.id
+    await validatePassword(password, user.password)    
+    return user.id
 }
 
 export async function validateCreateCredential(
@@ -50,7 +49,7 @@ export async function validateGetCredentialById(
     id: number){
 
     await validateUserById(userId)
-    const credential : ICredential = await validateCredentialId(userId, id)
+    const credential : credentials = await validateCredentialId(userId, id)
 
     return credential
 }
@@ -96,7 +95,7 @@ export async function validateDeleteNote(
 }
 
 export async function validateCreateCard(
-    userId: Prisma.Decimal,
+    userId: number,
     cardName: string,){
 
     await validateUserById(userId)
@@ -131,15 +130,12 @@ export async function validateDeleteCard(
 
 export async function validateUserByEmail(
     email: string){
-
-    const userData : users = await userRepository.searchUserByEmail(email) 
-       
-    return userData
+    const user = await userRepository.searchUserByEmail(email)        
+    return user
 }
 
 export async function validateUserById(
     userId: number){
-
     const user = await userRepository.searchUserById(userId)   
 
     if(!user){

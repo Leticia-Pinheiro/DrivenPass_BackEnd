@@ -14,10 +14,8 @@ export async function signUp(
 }
 
 export async function signIn(
-    userData: TypeUser){
-
-    const{email, password} = userData
-    const id: number = await validationService.validateSignIn(email, password)
+    userData: TypeUser){    
+    const id: number = await validationService.validateSignIn(userData)
     const token = generateToken(id)
     return token
 }

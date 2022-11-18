@@ -4,21 +4,24 @@ import { TypeCard } from "../utils/interfaces"
 import { EncryptData, DecryptData } from "../utils/cryptr"
 import { cards } from "@prisma/client"
 
-export async function createCard({
-    userId,
-	cardName,
-	number,
-	printedName,
-	securityCode,
-	expirationDate,
-	password,
-	isVirtual,
-	type} : TypeCard){
+export async function createCard(
+    cardData: TypeCard){
+    
+    const {userId,
+        cardName,
+        number,
+        printedName,
+        securityCode,
+        expirationDate,
+        password,
+        isVirtual,
+        type} = cardData
 
     await validationService.validateCreateCard(userId, cardName)
     const encryptedSecurityCode = EncryptData(securityCode)
     const encryptedPassword = EncryptData(password)
-    await cardRepository.createCard({userId, cardName, number, printedName, securityCode: encryptedSecurityCode, expirationDate, password: encryptedPassword, isVirtual, type})
+    await cardRepository.createCard({...cardData, securityCode: encryptedSecurityCode, password: encryptedPassword})
+    // await cardRepository.createCard({userId, cardName, number, printedName, securityCode: encryptedSecurityCode, expirationDate, password: encryptedPassword, isVirtual, type})
 }
 
 export async function getCardsByUserId(
@@ -43,7 +46,7 @@ export async function getCardsByUserId(
             isVirtual: c.isVirtual,
             type: c.type
         }
-        
+                
         return newCard
     })
 

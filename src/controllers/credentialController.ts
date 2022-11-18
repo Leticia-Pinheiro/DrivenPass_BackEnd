@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
 import * as credentialService from "../services/credentialService"
-import { ICredential } from "../utils/interfaces"
+import { TypeCredential } from "../utils/interfaces"
 
 export async function createCredential(req: Request, res: Response){
-    const {userId, credentialName, url, userName, password} : ICredential = req.body 
-    await credentialService.createCredential(userId, credentialName, url, userName, password)
+    const credentialData : TypeCredential = req.body 
+    await credentialService.createCredential(credentialData)
 
     res.send("Credential successfully registered").status(200)
 }

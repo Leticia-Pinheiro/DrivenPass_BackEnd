@@ -7,8 +7,8 @@ import cardRouter from "./cardRouter"
 
 const router = Router()
 router.use(authRouter)
-// router.use(credentialRouter)
-// // router.use(noteRouter)
-// router.use(cardRouter)
+router.use(credentialRouter)
+router.use(noteRouter)
+router.use(cardRouter)
 
 export default router

@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
 import * as noteService from "../services/noteService"
-import { INote } from "../utils/interfaces"
+import { TypeNote} from "../utils/interfaces"
 
 export async function createNote(req: Request, res: Response){
-    const {userId, title, note} : INote = req.body
-    await noteService.createNote(userId, title, note)
+    const noteData : TypeNote = req.body
+    await noteService.createNote(noteData)
 
     res.send("Note created successfully").status(200)
 }

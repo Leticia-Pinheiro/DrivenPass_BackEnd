@@ -2,17 +2,22 @@ import * as validationService from "./validationService"
 import * as credentialRepository from "../repositories/credentialRepository"
 import { EncryptData, DecryptData } from "../utils/cryptr"
 import { credentials } from "@prisma/client"
+import { TypeCredential } from "../utils/interfaces"
 
 export async function createCredential(
-    userId: number,
-    credentialName: string,
-    url: string,
-    userName: string,
-    password: string){
+    credentialData: TypeCredential){
+    
+    const {
+        userId,
+        credentialName,
+        url,
+        userName,
+        password
+    } = credentialData
 
     await validationService.validateCreateCredential(userId, credentialName)
     const encryptedPassword = EncryptData(password)
-    await credentialRepository.createCredential(userId, credentialName, url, userName, encryptedPassword)
+    await credentialRepository.createCredential({...credentialData, password: encryptedPassword})
 }
 
 export async function getCredentials(

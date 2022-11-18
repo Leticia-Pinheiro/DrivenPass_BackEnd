@@ -5,7 +5,6 @@ import ValidateSchema from "../middlewares/validateSchemaMiddleware"
 import credentialSchema from "../schemas/credentialSchema"
 
 const credentialRouter = Router()
-const endpoint = "/credential"
 
 credentialRouter.post(
 	"/credential",	

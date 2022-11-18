@@ -1,13 +1,17 @@
 import * as validationService from "./validationService"
 import * as noteRepository from "../repositories/noteRepository"
+import { TypeNote } from "../utils/interfaces"
 
 export async function createNote(
-    userId: number,
-    title: string,
-    note: string){
+    noteData: TypeNote){
+
+    const { 
+        userId, 
+        title, 
+    } = noteData
 
     await validationService.validateCreateNote(userId, title)
-    await noteRepository.createNote(userId, title, note)
+    await noteRepository.createNote(noteData)
 }
 
 export async function getNotes(
@@ -33,5 +37,5 @@ export async function deleteNote(
     id: number){
 
     await validationService.validateDeleteNote(userId, id)
-    await noteRepository.deleteNote(userId, id)
+    await noteRepository.deleteNote(id)
 }
